@@ -12,6 +12,31 @@
             <h2>Feature Requests</h2>
         </div>
 
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Client Name</th>
+                        <th>Priority</th>
+                        <th>Target Date</th>
+                        <th>Category</th>
+                </thead>
+                <tbody>
+                {% for feature_request in feature_requests %}
+                <tr>
+                    <td>{{ feature_request.title }}</td>
+                    <td>{{ feature_request.client.name }}</td>
+                    <td>{{ feature_request.client_priority }}</td>
+                    <td>{{ feature_request.target_date }}</td>
+                    <td>{{ feature_request.category.name }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a class="btn btn-primary" href="{{ url_for('feature_request_create') }}">Create a Feature Request</a>
+        </div>
+
     </div>
     </div>
 </body>

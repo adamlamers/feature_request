@@ -8,25 +8,56 @@ import datetime
 app = Flask(__name__)
 app.secret_key = "123"
 
+def ensure_priorities(client, new_priority):
+    requests = (FeatureRequest
+                .select()
+                .where(FeatureRequest.client == client,
+                       FeatureRequest.client_priority >= new_priority)
+                .order_by(FeatureRequest.client_priority))
+
+    for request in requests:
+        request.client_priority += 1
+        request.save()
+
 def create_feature_request(data):
+        error_occurred = False
+
         new_fr = FeatureRequest()
         new_fr.title = data.get('title')
         new_fr.description = data.get('description')
-        new_fr.client = Client.select(Client.id == data.get('client'))
+
+        try:
+            new_fr.client = Client.get(Client.id == data.get('client'))
+        except peewee.ClientDoesNotExist as e:
+            flash('Selected client does not exist.', 'error')
+            error_occurred = True
+
         new_fr.client_priority = data.get('client_priority')
 
         try:
             new_fr.target_date = datetime.datetime.strptime(data.get('target_date'), "%m/%d/%Y")
         except ValueError:
             flash('Target date is invalid.', 'error')
+            error_occurred = True
 
         new_fr.ticket_url = data.get('ticket_url')
-        new_fr.category = ProductCategory.select(ProductCategory.id == data.get('category'))
-        new_fr.save()
+
+        try:
+            new_fr.category = ProductCategory.get(ProductCategory.id == data.get('category'))
+        except peewee.ProductCategoryDoesNotExist as e:
+            flash('Selected category does not exist.', 'error')
+            error_occurred = True
+
+        if not error_occurred:
+            ensure_priorities(new_fr.client, new_fr.client_priority)
+            new_fr.save()
+
+        return error_occurred
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    feature_requests = FeatureRequest.select()
+    return render_template('index.html', feature_requests=feature_requests)
 
 @app.route('/feature_request/create', methods=["GET", "POST"])
 def feature_request_create():
