@@ -6,7 +6,7 @@ import json
 import datetime
 
 app = Flask(__name__)
-app.secret_key = "123"
+app.secret_key = "123" #this would be a more secure random string in a real application
 
 def ensure_priorities(client, new_priority):
     requests = (FeatureRequest
@@ -15,11 +15,15 @@ def ensure_priorities(client, new_priority):
                        FeatureRequest.client_priority >= new_priority)
                 .order_by(FeatureRequest.client_priority))
 
+    #shift all requests with the same or lower priority by 1,
+    #so the new one can fit in the middle
     for request in requests:
         request.client_priority += 1
         request.save()
 
 def create_feature_request(data):
+        '''Validate form data and create a feature request while
+        ensuring priority order is maintained'''
         error_occurred = False
 
         new_fr = FeatureRequest()
@@ -82,6 +86,9 @@ def category_create():
 
 @app.route('/init')
 def init():
+    ''' Initializes the database file and structure
+        with example data. '''
+
     try:
 
         db.create_tables([FeatureRequest, Client, ProductCategory])
