@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" media="all">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css">
+    <title>Create a Feature Request</title>
+</head>
+<body>
+    <div class="container">
+        <div class="col-md-12">
+            <a href="/">&lt; Back</a>
+        </div>
+        <div class="col-md-12">
+            <!-- <h2>Create a Feature Request</h2> -->
+        </div>
+
+        <form method="POST" action="/feature_request/create">
+            <div class="form-group">
+                <input id="fr_title" class="form-control" type="text" name="title" placeholder="Title">
+            </div>
+            <div class="form-group">
+                <label for="fr_description">Description</label>
+                <textarea id="fr_description" class="form-control" name="description" cols="30" rows="10"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="fr_client">Client</label>
+                <select id="fr_client" name="client" class="form-control">
+                    {% for client in clients %}
+                    <option value="{{ client.id }}">{{ client.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="fr_client_priority">Client Priority</label>
+                <input id="fr_client_priority" type="number" name="client_priority" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="fr_target_date">Target Date</label>
+                <input id="fr_target_date" type="text" name="target_date" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="fr_ticket_url">Ticket URL</label>
+                <input id="fr_ticket_url" type="text" name="ticket_url" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="fr_category">Category</label>
+                <select id="fr_category" name="category" class="form-control">
+                    {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary">Create</button>
+            </div>
+        </form>
+    </div>
+    </div>
+    <!-- <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/jquery.datetimepicker.min.js"></script> -->
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        $("#fr_target_date").datepicker({ format: 'm/d/y' });
+    });
+    </script>
+</body>
+</html>
