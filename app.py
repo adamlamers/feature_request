@@ -33,7 +33,7 @@ def create_feature_request(data):
         try:
             new_fr.client = Client.get(Client.id == data.get('client'))
         except peewee.ClientDoesNotExist as e:
-            flash('Selected client does not exist.', 'error')
+            flash('Selected client does not exist.', 'danger')
             error_occurred = True
 
         new_fr.client_priority = data.get('client_priority')
@@ -41,7 +41,7 @@ def create_feature_request(data):
         try:
             new_fr.target_date = datetime.datetime.strptime(data.get('target_date'), "%m/%d/%Y")
         except ValueError:
-            flash('Target date is invalid.', 'error')
+            flash('Target date is invalid.', 'danger')
             error_occurred = True
 
         new_fr.ticket_url = data.get('ticket_url')
@@ -49,10 +49,11 @@ def create_feature_request(data):
         try:
             new_fr.category = ProductCategory.get(ProductCategory.id == data.get('category'))
         except peewee.ProductCategoryDoesNotExist as e:
-            flash('Selected category does not exist.', 'error')
+            flash('Selected category does not exist.', 'danger')
             error_occurred = True
 
         if not error_occurred:
+            flash('Feature request added.', 'success')
             ensure_priorities(new_fr.client, new_fr.client_priority)
             new_fr.save()
 
