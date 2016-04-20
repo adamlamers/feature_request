@@ -61,7 +61,9 @@ def create_feature_request(data):
 
 @app.route('/')
 def index():
-    feature_requests = FeatureRequest.select()
+    feature_requests = (FeatureRequest
+                        .select()
+                        .order_by(FeatureRequest.client, FeatureRequest.client_priority))
     return render_template('index.html', feature_requests=feature_requests)
 
 @app.route('/feature_request/create', methods=["GET", "POST"])
