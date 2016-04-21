@@ -25,7 +25,7 @@
                 <tbody>
                 {% for feature_request in feature_requests %}
                 <tr>
-                    <td>{{ feature_request.title }}</td>
+                    <td><a href="{{ url_for('feature_request_view', id=feature_request.id) }}">{{ feature_request.title }}</a></td>
                     <td>{{ feature_request.client.name }}</td>
                     <td>{{ feature_request.client_priority }}</td>
                     <td>{{ feature_request.target_date }}</td>

@@ -79,6 +79,15 @@ def feature_request_create():
                                clients=clients,
                                categories=categories)
 
+@app.route('/feature_request/view/<int:id>')
+def feature_request_view(id):
+    try:
+        feature_request = FeatureRequest.get(FeatureRequest.id == id)
+    except peewee.FeatureRequestDoesNotExist as e:
+        abort(404)
+
+    return render_template('view_feature_request.html', feature_request=feature_request)
+
 @app.route('/client/create', methods=["GET", "POST"])
 def client_create():
     return render_template('create_client.html')

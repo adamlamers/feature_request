@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" media="all">
+    <title>View Feature Request</title>
+</head>
+<body>
+    <div class="container">
+        <div class="col-md-12">
+            <a href="/">&lt; Back</a>
+        </div>
+
+        <div class="col-md-12">
+            <h2>View Feature Request</h2>
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Feature Request ID# {{ feature_request.id }}
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th> Title </th>
+                                <th> Category </th>
+                            </tr>
+                            <tr>
+                                <td> {{ feature_request.title }} </td>
+                                <td> {{ feature_request.category.name }}</td>
+                            </tr>
+                            <tr>
+                                <th> Client </th>
+                                <th> Priority </th>
+                            </tr>
+                            <tr>
+                                <td> {{ feature_request.client.name }}</td>
+                                <td> {{ feature_request.client_priority }}</td>
+                            </tr>
+                            <tr>
+                                <th> Target Date </th>
+                                <th> Ticket URL </th>
+                            </tr>
+                            <tr>
+                                <td> {{ feature_request.target_date }}</td>
+                                <td> {{ feature_request.ticket_url }}</td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Description</th>
+                            </tr>
+                            <tr>
+                                <td colspan="2"> {{ feature_request.description }}</td>
+                            </tr>
+                        </tbody> 
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
