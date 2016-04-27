@@ -6,7 +6,7 @@ This app allows you to create feature requests and prioritize them on a per-clie
 To get an instance of this app up and running, follow these steps (Linux/MacOS):
 
 1. Create a new virtual environment (python3)
-` virtualenv -p \`which python3\` venv `
+` virtualenv -p $(which python3) venv `
 2. Enter the virtual environment
 ` source venv/bin/activate `
 3. Install dependencies
@@ -16,3 +16,8 @@ To get an instance of this app up and running, follow these steps (Linux/MacOS):
 5. Visit the /init url of the running app to initialize the database.
 http://127.0.0.1:5000/init (by default)
 6. You should be redirected to the root of the app. If not, visit http://127.0.0.1:5000/ to create feature requests.
+
+#Docker
+1. run `docker build -t feature_request .`
+2. run the image with `docker run -d -p 80:80 feature_request`
+3. visit `echo http://$(docker-machine ip)`
